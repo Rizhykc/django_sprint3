@@ -1,9 +1,12 @@
 {% extends "base.html" %}
+{% block title %}
+  Лента записей
+{% endblock %}
 {% block content %}
-    <h1>{{ content }}</h1>                        
-    {% for post in posts %}
-        <hr>
-        {% include "includes/post_card.html" with short_post=post.text|truncatewords:10 %}
-        <a href="{% url 'blog:post_detail' post.id %}">Читать полный текст</a>
-    {% endfor %}
-{% endblock content %}
+  <h1 class="mb-5">Лента записей</h1>
+  {% for post in post_list %}
+    <article class="mb-5">  
+      {% include "includes/post_card.html" %}
+    </article>   
+  {% endfor %}
+{% endblock %}
