@@ -8,7 +8,7 @@ def all_posts(model):
 
 
 class BlogAdmin(admin.ModelAdmin):
-    list_editable = ("is_published",)
+    list_editable = ('is_published',)
 
 
 @admin.register(Post)
@@ -17,18 +17,18 @@ class PostAdmin(BlogAdmin):
     list_display = [
         field.name
         for field in all_posts(Post)
-        if field.name not in ("id", "text")
+        if field.name not in ('id', 'text')
     ]
     list_display_links = ("title",)
     search_fields = (
-        "title",
-        "text",
+        'title',
+        'text',
     )
     list_filter = (
-        "is_published",
-        "category",
-        "location",
-        "author",
+        'is_published',
+        'category',
+        'location',
+        'author',
     )
 
 
@@ -36,10 +36,10 @@ class PostAdmin(BlogAdmin):
 class CategoryAdmin(BlogAdmin):
 
     list_display = (
-        "title",
-        "is_published",
-        "created_at",
-        "slug",
+        'title',
+        'is_published',
+        'created_at',
+        'slug',
     )
 
 
@@ -47,7 +47,7 @@ class CategoryAdmin(BlogAdmin):
 class LocationAdmin(BlogAdmin):
 
     list_display = (
-        "name",
-        "is_published",
-        "created_at",
+        'name',
+        'is_published',
+        'created_at',
     )
