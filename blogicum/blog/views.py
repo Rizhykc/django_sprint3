@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from blog.utils import q_post, q_category
+from django.utils import timezone
+from blog.utils import q_post
+from blog.models import Category
 
 
 def index(request):
@@ -25,13 +27,14 @@ def category_posts(request, category_slug):
 
     template = 'blog/category.html'
     category = get_object_or_404(
-        q_category(),
+        Category,
         slug=category_slug,
+        is_published=True,
     )
-    post_list = (
-        q_post()
-        .filter(category__slug=category_slug)
-        .order_by('-pub_date')[:10]
+    post_list = category.cat_posts.filter(
+        pub_data_lte=timezone.now(),
+        is_published=True,
+        category__is_published=True,
     )
     context = {'category': category, 'post_list': post_list}
     return render(request, template, context)

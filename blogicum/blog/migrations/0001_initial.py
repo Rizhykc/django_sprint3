@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Добавлено')),
                 ('title', models.CharField(max_length=256, unique=True, verbose_name='Заголовок')),
                 ('description', models.TextField(verbose_name='Описание')),
-                ('slug', models.SlugField(blank=True, help_text='Идентификатор страницы для URL; разрешены символы латиницы, цифры, дефис и подчёркивание.', max_length=200, null=True, unique=True, verbose_name='Идентификатор')),
+                ('slug', models.SlugField(help_text='Идентификатор страницы для URL; разрешены символы латиницы, цифры, дефис и подчёркивание.', unique=True, verbose_name='Идентификатор')),
             ],
             options={
                 'verbose_name': 'категория',
