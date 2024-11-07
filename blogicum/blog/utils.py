@@ -1,4 +1,4 @@
-from blog.models import Post
+from blog.models import Post, Category
 from django.utils import timezone
 
 
@@ -10,10 +10,27 @@ def q_post():
             'category',
             'location',
             'author',
-        ).filter(
+        )
+        .only(
+            "title",
+            "text",
+            "pub_date",
+            "author__username",
+            "category__title",
+            "category__slug",
+            "location__name",
+        )
+        .filter(
             pub_date__lte=time_now,
             is_published=True,
             category__is_published=True,
         )
+    )
+    return query_set
+
+
+def q_category():
+    query_set = Category.objects.values("title", "description").filter(
+        is_published=True
     )
     return query_set
