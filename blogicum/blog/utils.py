@@ -1,4 +1,4 @@
-from blog.models import Post, Category
+from blog.models import Post
 from django.utils import timezone
 
 
