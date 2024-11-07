@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404
 from blog.utils import q_post, q_category
 
 
-
 def index(request):
 
     template = 'blog/index.html'
