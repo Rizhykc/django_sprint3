@@ -1,37 +1,36 @@
-from django.shortcuts import render, get_object_or_404
-from blog.utils import q_post, q_category
+from django.shortcuts import get_object_or_404, render
+
+from blog.utils import query_category, query_post
+from .constants import POSTS_MAIN_PAGE
 
 
 def index(request):
 
-    template = 'blog/index.html'
-    post_list = q_post().order_by('-pub_date')[:5]
+    post_list = query_post().order_by('-pub_date')[:POSTS_MAIN_PAGE]
     context = {'post_list': post_list}
-    return render(request, template, context)
+    return render(request, 'blog/index.html', context)
 
 
 def post_detail(request, id):
 
-    template = 'blog/detail.html'
     post_list = get_object_or_404(
-        q_post(),
+        query_post(),
         pk=id,
     )
     context = {'post': post_list}
-    return render(request, template, context)
+    return render(request, 'blog/detail.html', context)
 
 
 def category_posts(request, category_slug):
 
-    template = "blog/category.html"
     category = get_object_or_404(
-        q_category(),
+        query_category(),
         slug=category_slug,
     )
     post_list = (
-        q_post()
+        query_post()
         .filter(category__slug=category_slug)
-        .order_by("-pub_date")[:10]
+        .order_by("-pub_date")
     )
     context = {'category': category, 'post_list': post_list}
-    return render(request, template, context)
+    return render(request, 'blog/category.html', context)

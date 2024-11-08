@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class MainModel(models.Model):
+class PublishedBaseModel(models.Model):
     is_published = models.BooleanField(
         default=True, verbose_name='Опубликовано',
         help_text='Снимите галочку, чтобы скрыть публикацию.',
@@ -18,7 +18,7 @@ class MainModel(models.Model):
         abstract = True
 
 
-class Category(MainModel):
+class Category(PublishedBaseModel):
     title = models.CharField(
         max_length=256, unique=True,
         verbose_name='Заголовок',
@@ -27,8 +27,10 @@ class Category(MainModel):
     slug = models.SlugField(
         unique=True,
         verbose_name='Идентификатор',
-        help_text='Идентификатор страницы для URL; '
-        'разрешены символы латиницы, цифры, дефис и подчёркивание.',
+        help_text=(
+            'Идентификатор страницы для URL; '
+            'разрешены символы латиницы, цифры, дефис и подчёркивание.'
+        )
     )
 
     class Meta:
@@ -39,7 +41,7 @@ class Category(MainModel):
         return self.title
 
 
-class Location(MainModel):
+class Location(PublishedBaseModel):
     name = models.CharField(
         max_length=256, verbose_name='Название места',
     )
@@ -52,20 +54,22 @@ class Location(MainModel):
         return self.name
 
 
-class Post(MainModel):
+class Post(PublishedBaseModel):
     title = models.CharField(
         max_length=256, unique=True, verbose_name='Заголовок',
     )
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
-        help_text='Если установить дату и время в будущем — '
-        'можно делать отложенные публикации.',
+        help_text=(
+            'Если установить дату и время в будущем — '
+            'можно делать отложенные публикации.'
+        )
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='author_posts',
+        related_name='authors_posts',
         verbose_name='Автор публикации',
 
     )
@@ -73,7 +77,7 @@ class Post(MainModel):
         Location,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='loc_posts',
+        related_name='locs_posts',
         blank=True,
         verbose_name='Местоположение',
     )
@@ -81,7 +85,7 @@ class Post(MainModel):
         Category,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='cat_posts',
+        related_name='cats_posts',
         verbose_name='Категория',
     )
 
