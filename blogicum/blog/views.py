@@ -1,8 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 
+from blog.constants import POSTS_MAIN_PAGE
 from blog.utils import query_category, query_post
-
-from .constants import POSTS_MAIN_PAGE
 
 
 def index(request):
@@ -30,8 +29,8 @@ def category_posts(request, category_slug):
     )
     post_list = (
         query_post()
-        .filter(category=category)  # Забыл исправить после первого замечания.
-        .order_by("-pub_date")  # Извините)
+        .filter(category=category)
+        .order_by("-pub_date")
     )
     context = {'category': category, 'post_list': post_list}
     return render(request, 'blog/category.html', context)
