@@ -3,7 +3,7 @@ from django.contrib import admin
 from blog.models import Category, Location, Post
 
 
-def get_posts(model):
+def get_model_fields(model):
     return model._meta.get_fields()
 
 
@@ -16,7 +16,7 @@ class PostAdmin(BlogAdmin):
 
     list_display = [
         field.name
-        for field in get_posts(Post)
+        for field in get_model_fields(Post)
         if field.name not in ('id', 'text')
     ]
     list_display_links = ("title",)
